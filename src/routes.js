@@ -1,11 +1,13 @@
-const router				=	require('express').Router();
-const health				=	require('./controllers/health');
-const userController	    =	require('./controllers/user');
-const bookController	    =	require('./controllers/book');
+const router				    =	require('express').Router();
+const health				    =	require('./controllers/health');
+const userController	        =	require('./controllers/user');
+const bookController	        =	require('./controllers/book');
+const regBookController	=	require('./controllers/registerBook');
 
-const userValidator		    =	require('./middlewares/userValidator');
-const bookValidator		    =	require('./middlewares/bookValidator');
-const { checkInvalid }		=	require('./middlewares/validationReject');
+const userValidator		        =	require('./middlewares/userValidator');
+const bookValidator		        =	require('./middlewares/bookValidator');
+const registerBookValidator		=	require('./middlewares/registerBookValidator');
+const { checkInvalid }		    =	require('./middlewares/validationReject');
 
 // System Routes
 router.get('/', health.loopback);
@@ -24,5 +26,12 @@ router.get('/api/book', bookController.getBooks);
 router.get('/api/book/:id', bookController.getBookById);
 router.put('/api/book/:id', bookValidator.bookValidator, checkInvalid, bookController.updateBookById);
 router.delete('/api/book/:id', bookController.deleteBookById);
+
+// Book Routes
+router.post('/api/register-book', registerBookValidator.registerBookValidator, checkInvalid, regBookController.createRegister);
+router.get('/api/register-book', regBookController.getRegisters);
+router.get('/api/register-book/:id', regBookController.getRegisterById);
+router.put('/api/register-book/:id', registerBookValidator.registerBookValidator, checkInvalid, regBookController.updateRegisterById);
+router.delete('/api/register-book/:id', regBookController.deleteRegisterById);
 
 module.exports = router;

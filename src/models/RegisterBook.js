@@ -6,7 +6,8 @@ mongoose.Promise 	= global.Promise;
 const registerBookSchema = new Schema({
 	studentId: {
 		type: objectID,
-		ref: 'User'
+		ref: 'User',
+		required: true
 	},
 	books: [{
 		type: objectID,

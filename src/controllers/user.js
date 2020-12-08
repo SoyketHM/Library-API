@@ -74,6 +74,9 @@ module.exports.updateUserById = async (req, res, next) => {
 //login user
 module.exports.loginUser = async (req, res, next) => {
     const [error, user] = await _p(userCrud.loginUser(req.body));
+    if (!user) {
+        return res.status(400).json(createResponse(null, 'user unauthorized!'));
+    }
     if (user) {
         const varifyPass = await hash.verify(req.body.password, user.password);
         if (!varifyPass) {

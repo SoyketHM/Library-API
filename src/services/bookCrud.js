@@ -2,8 +2,7 @@ const Book 	= require('../models/Book');
 const _p    = require('../helpers/simpleasync');
 
 //create book
-module.exports.createBook = async bookInfo => {    
-    console.log(bookInfo);
+module.exports.createBook = async bookInfo => { 
 	return new Promise(async (resolve, reject) => {
 		const [error, saveBookInfo] = await _p(Book.create(bookInfo));
 

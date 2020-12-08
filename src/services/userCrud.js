@@ -65,14 +65,10 @@ module.exports.updateUserById = async (id, userInfo) => {
 //login user
 module.exports.loginUser = async (loginInfo) => {
     return new Promise(async (resolve, reject) => {
-        const [error, user] = await _p(User.findOne({ email: loginInfo.email }));
+        const [error, user] = await _p(User.findOne({ email: loginInfo.email, status: { $ne: 'inactive' } }));
 
-        if (!error) {
-            if (user) {
-                return resolve(user);
-            }
-        } else {
-            return reject(error.message);
-        }
+        if (!user) return resolve(null);
+        if (user) return resolve(user);
+        if (error) return reject(error.message);
     });
 };
