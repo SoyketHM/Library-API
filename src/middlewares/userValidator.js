@@ -14,8 +14,9 @@ module.exports.userValidator = [
 ];
 
 module.exports.loginValidator = [
-	check('userId')
-		.exists({ checkNull: true, checkFalsy: true }).withMessage('UserId can\'t be empty').bail()
-		.isString().withMessage('UserId must be a string')
+	check('email')
+        .exists({ checkNull: true, checkFalsy: true }).bail().isString().withMessage('Email must be a string'),
+    check('password')
+        .exists({ checkNull: true, checkFalsy: true }).bail().isString().withMessage('Password must be a string'),
 ];
 

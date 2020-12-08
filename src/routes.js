@@ -11,8 +11,10 @@ router.get('/health', health.check);
 
 // User Routes
 router.post('/signup', userValidator.userValidator, checkInvalid, userController.createUser);
-// router.post('/login', userValidator.loginValidator, checkInvalid, userController.loginUser);
+router.post('/login', userValidator.loginValidator, checkInvalid, userController.loginUser);
 router.get('/api/user', userController.getUsers);
+router.get('/api/user/:id', userController.getUserById);
+router.put('/api/user/:id', userController.updateUserById);
 
 
 module.exports = router;
