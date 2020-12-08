@@ -13,7 +13,7 @@ module.exports.createUser = async (req, res, next) => {
     const [error, user] = await _p(userCrud.createUser(req.body));
 
     if (error) {
-        console.log(error.red);
+        console.log(error);
         return next(new Error('user creation failed'));
     }
     let token = '';
@@ -36,7 +36,7 @@ module.exports.getUsers = async (req, res, next) => {
     const [error, categories] = await _p(userCrud.getUsers(req.query));
 
     if (error) {
-        console.log(error.red);
+        console.log(error);
         return next(new Error('user fetch error'));
     }
     return res.status(200).json(createResponse(categories));
@@ -47,7 +47,7 @@ module.exports.getUserById = async (req, res, next) => {
     const [error, user] = await _p(userCrud.getUserById(req.params.id));
 
     if (error) {
-        console.log(error.red);
+        console.log(error);
         return next(new Error('user fetch error'));
     }
 
@@ -62,7 +62,7 @@ module.exports.updateUserById = async (req, res, next) => {
     let [error, user] = await _p(userCrud.updateUserById(req.params.id, req.body));
 
     if (error) {
-        console.log(error.red);
+        console.log(error);
         return next(new Error('user access error'));
     }
     if (!user) {

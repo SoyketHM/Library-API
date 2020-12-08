@@ -8,7 +8,7 @@ module.exports.userValidator = [
     check('password')
         .exists({ checkNull: true, checkFalsy: true }).bail().isString().withMessage('Password must be a string'),
 	check('type')
-		.optional().exists({ checkNull: true, checkFalsy: true }).bail().isString().withMessage('Status must be a string'),
+		.optional().exists({ checkNull: true, checkFalsy: true }).bail().isString().withMessage('Type must be a string'),
 	check('status')
 		.optional().exists({ checkNull: true, checkFalsy: true }).bail().isString().withMessage('Status must be a string'),
 ];
