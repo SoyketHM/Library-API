@@ -288,12 +288,11 @@ module.exports.updateBookById = async (req, res,next) => {
 	return res.status(200).json(createResponse(book, 'book updated successfully'));
 };
 
-
 /**
  * @swagger
  *
  * /books/:id:
- *   put:
+ *   delete:
  *     tags: [books]
  *     description: Delete book by id
  *     produces:
