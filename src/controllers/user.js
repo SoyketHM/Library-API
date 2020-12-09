@@ -11,7 +11,7 @@ const jwt = require('../helpers/jwt');
  *   User:
  *     type: object
  *     required:
- *       - username
+ *       - email
  *       - password
  *     properties:
  *       name:
@@ -27,7 +27,58 @@ const jwt = require('../helpers/jwt');
  *         type: string
  */
 
-//create user: 
+/**
+ * @swagger
+ *
+ * /signup:
+ *   post:
+ *     tags: [signup]
+ *     description: Create a new user
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: token
+ *         description: User token
+ *         in:  header
+ *       - name: name
+ *         description: User name
+ *         in:  formData
+ *         type: string
+ *       - name: email
+ *         description: User email
+ *         in:  formData
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         description: User password
+ *         in:  formData
+ *         required: true
+ *         type: string
+ *       - name: type
+ *         description: User type
+ *         in:  formData
+ *         type: string
+ *       - name: status
+ *         description: User status
+ *         in:  formData
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: OK
+ *         schema:
+ *           $ref: '#/definitions/User'
+ *         examples: 
+ *           application/json: 
+ *             { 
+ *               "error": false,
+ *               "data": {
+ *               "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQmVsYXlldCIsInR5cGUiOiJhZG1pbiIsInN0YXR1cyI6ImFjdGl2ZSIsImV4cCI6MTYwNzUyMDgxMzIsImlhdCI6MTYwNzUyMDQ1M30.SvDzXJihv0j8t_5NFAZou77TywA3Kuf3NV9YpEwqeVg",
+ *               "name": "Belayet"
+ *               },
+ *               "message": "user created successfully"
+ *             } 
+ *         
+ */
 module.exports.createUser = async (req, res, next) => {
     if (req.body.password) {
         const hashPass = await hash.new(req.body.password);
@@ -54,19 +105,51 @@ module.exports.createUser = async (req, res, next) => {
     return res.status(200).json(createResponse({ token, name: user.name }, 'user created successfully'));
 };
 
-//get all categories || can use query string
 /**
  * @swagger
- * /api/users:
+ *
+ * /usres:
  *   get:
- *     description: Returns users
+ *     tags: [users]
+ *     description: Get all users
  *     produces:
- *      - application/json
- *     headers:
- *      - token
+ *       - application/json
+ *     parameters:
+ *       - name: token
+ *         description: User token
+ *         in:  header
  *     responses:
  *       200:
- *         description: Get all users
+ *         description: OK
+ *         examples: 
+ *           application/json: 
+ *             { 
+ *               "error": false,
+ *               "data": [{
+ *                   "type": "admin",
+ *                   "status": "active",
+ *                   "_id": "5fd0d0c55bc98643cc739c47",
+ *                   "name": "Belayet",
+ *                   "email": "belayet2@gmail.com",
+ *                   "password": "$2a$10$Efjjp/WGqO6JJ9TXB7qaMukqU.34DtxZHF7ALKQZ7hvnP3bCj.7Xm",
+ *                   "createdAt": "2020-12-09T13:27:33.186Z",
+ *                   "updatedAt": "2020-12-09T13:27:33.186Z",
+ *                   "__v": 0
+ *               },
+ *               {
+ *                   "type": "student",
+ *                   "status": "active",
+ *                   "_id": "5fd09bf4cb566038a86609cb",
+ *                   "name": "Akash",
+ *                   "email": "akash@gmail.com",
+ *                   "password": "$2a$10$Efjjp/WGqO6JJ9TXB7qaMukqU.34DtxZHF7ALKQZ7hvnP3bCj.7Xm",
+ *                   "createdAt": "2020-12-09T13:27:33.186Z",
+ *                   "updatedAt": "2020-12-09T13:27:33.186Z",
+ *                   "__v": 0
+ *               }],
+ *               "message": null
+ *             } 
+ *         
  */
 module.exports.getUsers = async (req, res, next) => {
     const [error, categories] = await _p(userCrud.getUsers(req.query));
@@ -78,7 +161,46 @@ module.exports.getUsers = async (req, res, next) => {
     return res.status(200).json(createResponse(categories));
 };
 
-//get user by user id
+/**
+ * @swagger
+ *
+ * /usres/:id:
+ *   get:
+ *     tags: [users]
+ *     description: User get by id
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: token
+ *         description: User token
+ *         in:  header
+ *       - name: id
+ *         description: User id
+ *         in:  query
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: OK
+ *         examples: 
+ *           application/json: 
+ *             { 
+ *               "error": false,
+ *               "data": {
+ *                   "type": "admin",
+ *                   "status": "active",
+ *                   "_id": "5fd0d0c55bc98643cc739c47",
+ *                   "name": "Belayet",
+ *                   "email": "belayet2@gmail.com",
+ *                   "password": "$2a$10$Efjjp/WGqO6JJ9TXB7qaMukqU.34DtxZHF7ALKQZ7hvnP3bCj.7Xm",
+ *                   "createdAt": "2020-12-09T13:27:33.186Z",
+ *                   "updatedAt": "2020-12-09T13:27:33.186Z",
+ *                   "__v": 0
+ *               },
+ *               "message": null
+ *             } 
+ *         
+ */
 module.exports.getUserById = async (req, res, next) => {
     const [error, user] = await _p(userCrud.getUserById(req.params.id));
 
@@ -93,7 +215,65 @@ module.exports.getUserById = async (req, res, next) => {
     return res.status(200).json(createResponse(user));
 };
 
-//update user by user id
+/**
+ * @swagger
+ *
+ * /users/:id:
+ *   put:
+ *     tags: [users]
+ *     description: Update user by id
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: token
+ *         description: User token
+ *         in:  header
+ *       - name: name
+ *         description: User name
+ *         in:  formData
+ *         type: string
+ *       - name: email
+ *         description: User email
+ *         in:  formData
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         description: User password
+ *         in:  formData
+ *         required: true
+ *         type: string
+ *       - name: type
+ *         description: User type
+ *         in:  formData
+ *         type: string
+ *       - name: status
+ *         description: User status
+ *         in:  formData
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: OK
+ *         schema:
+ *           $ref: '#/definitions/User'
+ *         examples: 
+ *           application/json: 
+ *             { 
+ *               "error": false,
+ *               "data": {
+ *                   "type": "student",
+ *                   "status": "inactive",
+ *                   "_id": "5fd0d0c55bc98643cc739c47",
+ *                   "name": "Belayet",
+ *                   "email": "belayet2@gmail.com",
+ *                   "password": "$2a$10$Efjjp/WGqO6JJ9TXB7qaMukqU.34DtxZHF7ALKQZ7hvnP3bCj.7Xm",
+ *                   "createdAt": "2020-12-09T13:27:33.186Z",
+ *                   "updatedAt": "2020-12-09T13:27:33.186Z",
+ *                   "__v": 0
+ *               },
+ *               "message": "user updated successfully"
+ *             } 
+ *         
+ */
 module.exports.updateUserById = async (req, res, next) => {
     let [error, user] = await _p(userCrud.updateUserById(req.params.id, req.body));
 
@@ -107,7 +287,41 @@ module.exports.updateUserById = async (req, res, next) => {
     return res.status(200).json(createResponse(user, 'user updated successfully'));
 };
 
-//login user
+/**
+ * @swagger
+ *
+ * /login:
+ *   post:
+ *     tags: [login]
+ *     description: Login as a user ( Don't need to add base url )
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: email
+ *         description: User email
+ *         in:  formData
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         description: User password
+ *         in:  formData
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: OK
+ *         examples: 
+ *           application/json: 
+ *             { 
+ *               "error": false,
+ *               "data": {
+ *               "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQmVsYXlldCIsInR5cGUiOiJhZG1pbiIsInN0YXR1cyI6ImFjdGl2ZSIsImV4cCI6MTYwNzUyMDgxMzIsImlhdCI6MTYwNzUyMDQ1M30.SvDzXJihv0j8t_5NFAZou77TywA3Kuf3NV9YpEwqeVg",
+ *               "name": "Belayet"
+ *               },
+ *               "message": "user login successfully"
+ *             } 
+ *         
+ */
 module.exports.loginUser = async (req, res, next) => {
     const [error, user] = await _p(userCrud.loginUser(req.body));
     if (!user) {

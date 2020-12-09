@@ -19,7 +19,7 @@ router.post('/login', userValidator.loginValidator, checkInvalid, userController
 router.post('/api/signup', userValidator.userValidator, checkInvalid, userController.createUser);
 router.get('/api/users', userController.getUsers);
 router.get('/api/users/:id', userController.getUserById);
-router.put('/api/users/:id', userValidator.userValidator, checkInvalid, userController.updateUserById);
+router.put('/api/users/:id', userValidator.userUpdateValidator, checkInvalid, userController.updateUserById);
 
 // Book Routes
 router.post('/api/books', bookValidator.bookValidator, checkInvalid, bookController.createBook);
