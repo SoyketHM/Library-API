@@ -1,0 +1,30 @@
+{
+    "admin": {
+        "signup": [
+            "*"
+        ],
+        "user": [
+            "*"
+        ],
+        "book": [
+            "*"
+        ],
+        "register-book": [
+            "*"
+        ]
+    },
+    "librarian": {
+        "book": [
+            "*"
+        ],
+        "register-book": [
+            "*"
+        ]
+    },
+    "student": {
+        "register-book": [
+            "GET",
+            "POST"
+        ]
+    }
+}
