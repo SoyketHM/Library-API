@@ -3,26 +3,26 @@
         "signup": [
             "*"
         ],
-        "user": [
+        "users": [
             "*"
         ],
-        "book": [
+        "books": [
             "*"
         ],
-        "register-book": [
+        "register-books": [
             "*"
         ]
     },
     "librarian": {
-        "book": [
+        "books": [
             "*"
         ],
-        "register-book": [
+        "register-books": [
             "*"
         ]
     },
     "student": {
-        "register-book": [
+        "register-books": [
             "GET",
             "POST"
         ]

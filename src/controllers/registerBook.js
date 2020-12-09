@@ -15,6 +15,19 @@ module.exports.createRegister = async (req, res,next) => {
 };
 
 //get all Registers || can use query string
+/**
+ * @swagger
+ * /api/register-books:
+ *   get:
+ *     description: Returns users
+ *     produces:
+ *      - application/json
+ *     headers:
+ *      - token
+ *     responses:
+ *       200:
+ *         description: Get all users
+ */
 module.exports.getRegisters = async (req, res,next) => {
 	const [error,categories] = await _p(registerCrud.getRegisters(req.query));
 

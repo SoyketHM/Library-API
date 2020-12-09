@@ -4,6 +4,29 @@ const hash = require('../helpers/password_hash');
 const { createResponse } = require('../utils/responseGenerate');
 const jwt = require('../helpers/jwt');
 
+/**
+ * @swagger
+ *
+ * definitions:
+ *   User:
+ *     type: object
+ *     required:
+ *       - username
+ *       - password
+ *     properties:
+ *       name:
+ *         type: string
+ *       email:
+ *         type: string
+ *       password:
+ *         type: string
+ *         format: password
+ *       type:
+ *         type: string
+ *       status:
+ *         type: string
+ */
+
 //create user: 
 module.exports.createUser = async (req, res, next) => {
     if (req.body.password) {
@@ -32,6 +55,19 @@ module.exports.createUser = async (req, res, next) => {
 };
 
 //get all categories || can use query string
+/**
+ * @swagger
+ * /api/users:
+ *   get:
+ *     description: Returns users
+ *     produces:
+ *      - application/json
+ *     headers:
+ *      - token
+ *     responses:
+ *       200:
+ *         description: Get all users
+ */
 module.exports.getUsers = async (req, res, next) => {
     const [error, categories] = await _p(userCrud.getUsers(req.query));
 
