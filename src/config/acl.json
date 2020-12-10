@@ -10,7 +10,9 @@
             "*"
         ],
         "register-books": [
-            "*"
+            "GET",
+            "PUT",
+            "DELETE"
         ]
     },
     "librarian": {
@@ -22,6 +24,9 @@
         ]
     },
     "student": {
+        "books": [
+            "GET"
+        ],
         "register-books": [
             "GET",
             "POST",
