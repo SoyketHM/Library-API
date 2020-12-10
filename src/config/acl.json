@@ -24,7 +24,8 @@
     "student": {
         "register-books": [
             "GET",
-            "POST"
+            "POST",
+            "PUT"
         ]
     }
 }

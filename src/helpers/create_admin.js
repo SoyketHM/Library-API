@@ -1,14 +1,16 @@
 const User = require('../models/User');
 const _p = require('../helpers/simpleasync');
+const hash = require('./password_hash');
 
 //create user
 module.exports.createAdmin = async () => {
     const [error, admin] = await _p(User.findOne({ email: "admin@gmail.com" }));
     if (!admin) {
+        const hashPass = await hash.new('admin');
         const userInfo = {
             name: "Admin",
             email: "admin@gmail.com",
-            password: "admin",
+            password: hashPass,
             type: "admin",
             status: "active"
         }

@@ -52,7 +52,10 @@ module.exports.getRegisterById = async id => {
 //update register by register id
 module.exports.updateRegisterById = async (id, bookInfo) => {
 	return new Promise(async (resolve, reject) => {
-		const [error, updateRegisterInfo] = await _p(RegisterBook.findOneAndUpdate({ _id: id }, bookInfo, { new: true	}));
+		const update_book_info = {
+			$addToSet: {books: bookInfo.books}
+		}
+		const [error, updateRegisterInfo] = await _p(RegisterBook.findOneAndUpdate({ _id: id }, update_book_info, { new: true	}));
 
 		if (!error) {
 			return resolve(updateRegisterInfo);
