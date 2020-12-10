@@ -315,7 +315,7 @@ module.exports.loginUser = async (req, res, next) => {
     let token = '';
     if (user) {
         const payload = {
-            id: user.userId,
+            id: user._id,
             type: user.type,
             status: user.status,
             exp: Math.floor(Date.now() / 100) + (60 * 60)

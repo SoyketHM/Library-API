@@ -58,6 +58,7 @@ const { createResponse }    = require('../utils/responseGenerate');
  *         
  */
 module.exports.createRegister = async (req, res, next) => {
+	req.body.studentId = req.user.id;
 	const [error,register] = await _p(registerCrud.createRegister(req.body));
 
 	if (error) {
