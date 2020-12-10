@@ -60,7 +60,6 @@ const { createResponse }    = require('../utils/responseGenerate');
  *         
  */
 module.exports.createRegister = async (req, res,next) => {
-    console.log(req.body);
 	const [error,register] = await _p(registerCrud.createRegister(req.body));
 
 	if (error) {
