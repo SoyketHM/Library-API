@@ -20,10 +20,12 @@ const userSchema = new Schema({
 	},
 	type: {
 		type: String,
+		lowercase: true,
 		default: 'student'
 	},
 	status: {
 		type: String,
+		lowercase: true,
 		default: 'active'
 	}
 }, { timestamps: true });

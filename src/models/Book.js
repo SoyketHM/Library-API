@@ -24,6 +24,7 @@ const bookSchema = new Schema({
 	},
 	status: {
 		type: String,
+		lowercase: true,
 		default: 'active'
 	}
 }, { timestamps: true });
