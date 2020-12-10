@@ -13,8 +13,6 @@ const { createResponse }    = require('../utils/responseGenerate');
  *         type: string
  *       books:
  *         type: array
- *         items:
- *         	 type: string
  */
 
 /**
