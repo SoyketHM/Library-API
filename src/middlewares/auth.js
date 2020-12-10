@@ -4,7 +4,7 @@ const acl = require('../config/acl.json');
 const checkAuthorization = (payload, req) => {
 	let found = false;
 	const aclType = payload.type;
-	const url = req.originalUrl.split('/')[2];
+	const url = req.originalUrl.split('/')[2].split('?')[0];
 	const userAcl = acl[aclType];
 
 	if (!userAcl[url]) return found;
