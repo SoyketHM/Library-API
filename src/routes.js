@@ -8,6 +8,7 @@ const userValidator		        =	require('./middlewares/userValidator');
 const bookValidator		        =	require('./middlewares/bookValidator');
 const registerBookValidator		=	require('./middlewares/registerBookValidator');
 const { checkInvalid }		    =	require('./middlewares/validationReject');
+const { upload }  				=   require('./middlewares/imageUpload');
 
 
 // System Routes
@@ -22,7 +23,7 @@ router.get('/api/users/:id', userController.getUserById);
 router.put('/api/users/:id', userValidator.userUpdateValidator, checkInvalid, userController.updateUserById);
 
 // Book Routes
-router.post('/api/books', bookValidator.bookValidator, checkInvalid, bookController.createBook);
+router.post('/api/books', bookValidator.bookValidator, checkInvalid, upload, bookController.createBook);
 router.get('/api/books', bookController.getBooks);
 router.get('/api/books/:id', bookController.getBookById);
 router.put('/api/books/:id', bookValidator.bookValidator, checkInvalid, bookController.updateBookById);

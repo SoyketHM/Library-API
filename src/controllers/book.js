@@ -86,7 +86,7 @@ const { createResponse }    = require('../utils/responseGenerate');
  *         
  */
 module.exports.createBook = async (req, res,next) => {
-    console.log(req.body);
+	req.body.image = req.file.filename;
 	const [error,book] = await _p(bookCrud.createBook(req.body));
 
 	if (error) {
