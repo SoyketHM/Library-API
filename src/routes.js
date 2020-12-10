@@ -26,7 +26,7 @@ router.put('/api/users/:id', userValidator.userUpdateValidator, checkInvalid, us
 router.post('/api/books', bookValidator.bookValidator, checkInvalid, upload, bookController.createBook);
 router.get('/api/books', bookController.getBooks);
 router.get('/api/books/:id', bookController.getBookById);
-router.put('/api/books/:id', bookValidator.bookValidator, checkInvalid, bookController.updateBookById);
+router.put('/api/books/:id', bookValidator.bookValidator, checkInvalid, upload, bookController.updateBookById);
 router.delete('/api/books/:id', bookController.deleteBookById);
 
 // Register Book Routes

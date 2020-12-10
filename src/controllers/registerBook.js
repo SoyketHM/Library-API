@@ -11,31 +11,29 @@ const { createResponse }    = require('../utils/responseGenerate');
  *     properties:
  *       studentId:
  *         type: string
+ *         example: 5fd2720f5cabea283cd3cfe2
  *       books:
  *         type: array
+ *         example: [5fd2720f5cabea283cd3cfe2]
  */
 
 /**
  * @swagger
  *
- * /register-books:
+ * /api/register-books:
  *   post:
  *     tags: [register-books]
  *     description: Create a new register book
  *     produces:
  *       - application/json
  *     parameters: 
- *       - name: token
- *         description: User token
- *         in:  header
- *       - name: studentId
- *         description: Student id
- *         in:  formData
- *         type: string
- *       - name: books
- *         description: Book list
- *         in:  formData
- *         type: string
+ *     - name: token
+ *       description: User token
+ *       in:  header
+ *     - in:  body
+ *       name: Register Book Data
+ *       schema:
+ *         $ref: '#/definitions/RegisterBook'
  *     responses:
  *       200:
  *         description: OK
@@ -46,7 +44,7 @@ const { createResponse }    = require('../utils/responseGenerate');
  *             { 
  *               "error": false,
  *               "data": {
- *				"books": [
+ *				 "books": [
  *					"5fcfc5a92a90f93cac013892"
  *					],
  *					"_id": "5fcfe72b784d8643e4fae212",
@@ -59,7 +57,7 @@ const { createResponse }    = require('../utils/responseGenerate');
  *             } 
  *         
  */
-module.exports.createRegister = async (req, res,next) => {
+module.exports.createRegister = async (req, res, next) => {
 	const [error,register] = await _p(registerCrud.createRegister(req.body));
 
 	if (error) {
@@ -72,7 +70,7 @@ module.exports.createRegister = async (req, res,next) => {
 /**
  * @swagger
  *
- * /register-books:
+ * /api/register-books:
  *   get:
  *     tags: [register-books]
  *     description: Get all register book
@@ -128,7 +126,7 @@ module.exports.getRegisters = async (req, res,next) => {
 /**
  * @swagger
  *
- * /register-books/:id:
+ * /api/register-books/{id}:
  *   get:
  *     tags: [register-books]
  *     description: Update register book id
@@ -139,8 +137,8 @@ module.exports.getRegisters = async (req, res,next) => {
  *         description: User token
  *         in:  header
  *       - name: id
- *         description: Student id
- *         in:  formData
+ *         description: Register book id
+ *         in:  path
  *         type: string
  *     responses:
  *       200:
@@ -182,24 +180,24 @@ module.exports.getRegisterById = async (req, res,next) => {
 /**
  * @swagger
  *
- * /register-books/:id:
+ * /api/register-books/{id}:
  *   put:
  *     tags: [register-books]
  *     description: Update register book id
  *     produces:
  *       - application/json
  *     parameters: 
- *       - name: token
- *         description: User token
- *         in:  header
- *       - name: studentId
- *         description: Student id
- *         in:  formData
- *         type: string
- *       - name: books
- *         description: Book list
- *         in:  formData
- *         type: string
+ *     - name: token
+ *       description: User token
+ *       in:  header
+ *     - name: id
+ *       description: Register book id
+ *       in:  path
+ *       type: string
+ *     - in:  body
+ *       name: Register Book Data
+ *       schema:
+ *         $ref: '#/definitions/RegisterBook'
  *     responses:
  *       200:
  *         description: OK
@@ -224,6 +222,7 @@ module.exports.getRegisterById = async (req, res,next) => {
  *         
  */
 module.exports.updateRegisterById = async (req, res,next) => {
+	if (req.body.studentId) delete req.body.studentId;
 	let [error,register] = await _p(registerCrud.updateRegisterById(req.params.id, req.body));
 
 	if(error) {
@@ -239,16 +238,20 @@ module.exports.updateRegisterById = async (req, res,next) => {
 /**
  * @swagger
  *
- * /register-books/:id:
+ * /api/register-books/{id}:
  *   delete:
  *     tags: [register-books]
  *     description: Delete register book id
  *     produces:
  *       - application/json
  *     parameters: 
- *       - name: token
- *         description: User token
- *         in:  header
+ *     - name: token
+ *       description: User token
+ *       in:  header
+ *     - name: id
+ *       description: Register book id
+ *       in:  path
+ *       type: string
  *     responses:
  *       200:
  *         description: OK

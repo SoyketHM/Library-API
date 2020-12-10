@@ -8,6 +8,19 @@ const jwt = require('../helpers/jwt');
  * @swagger
  *
  * definitions:
+ *   LoginUser:
+ *     type: object
+ *     required:
+ *       - email
+ *       - password
+ *     properties:
+ *       email:
+ *         type: string
+ *         example: admin@gmail.com
+ *       password:
+ *         type: string
+ *         format: password
+ *         example: admin
  *   User:
  *     type: object
  *     required:
@@ -16,57 +29,42 @@ const jwt = require('../helpers/jwt');
  *     properties:
  *       name:
  *         type: string
+ *         example: Jone
  *       email:
  *         type: string
+ *         example: admin@gmail.com
  *       password:
  *         type: string
  *         format: password
+ *         example: 12345
  *       type:
  *         type: string
+ *         example: student
  *       status:
  *         type: string
+ *         example: active
  */
 
 /**
  * @swagger
  *
- * /signup:
+ * /api/signup:
  *   post:
  *     tags: [signup]
  *     description: Create a new user
- *     produces:
- *       - application/json
+ *     consumes:
+ *     - application/json
  *     parameters:
- *       - name: token
- *         description: User token
- *         in:  header
- *       - name: name
- *         description: User name
- *         in:  formData
- *         type: string
- *       - name: email
- *         description: User email
- *         in:  formData
- *         required: true
- *         type: string
- *       - name: password
- *         description: User password
- *         in:  formData
- *         required: true
- *         type: string
- *       - name: type
- *         description: User type
- *         in:  formData
- *         type: string
- *       - name: status
- *         description: User status
- *         in:  formData
- *         type: string
+ *     - name: token
+ *       description: User token
+ *       in:  header
+ *     - in: body
+ *       name: User Data
+ *       schema:
+ *         $ref: '#/definitions/User'
  *     responses:
  *       200:
  *         description: OK
- *         schema:
- *           $ref: '#/definitions/User'
  *         examples: 
  *           application/json: 
  *             { 
@@ -108,7 +106,7 @@ module.exports.createUser = async (req, res, next) => {
 /**
  * @swagger
  *
- * /usres:
+ * /api/users:
  *   get:
  *     tags: [users]
  *     description: Get all users
@@ -164,7 +162,7 @@ module.exports.getUsers = async (req, res, next) => {
 /**
  * @swagger
  *
- * /usres/:id:
+ * /api/users/{id}:
  *   get:
  *     tags: [users]
  *     description: User get by id
@@ -176,7 +174,7 @@ module.exports.getUsers = async (req, res, next) => {
  *         in:  header
  *       - name: id
  *         description: User id
- *         in:  query
+ *         in:  path
  *         required: true
  *         type: string
  *     responses:
@@ -218,43 +216,26 @@ module.exports.getUserById = async (req, res, next) => {
 /**
  * @swagger
  *
- * /users/:id:
+ * /api/users/{id}:
  *   put:
  *     tags: [users]
  *     description: Update user by id
  *     produces:
  *       - application/json
  *     parameters:
- *       - name: token
- *         description: User token
- *         in:  header
- *       - name: name
- *         description: User name
- *         in:  formData
- *         type: string
- *       - name: email
- *         description: User email
- *         in:  formData
- *         required: true
- *         type: string
- *       - name: password
- *         description: User password
- *         in:  formData
- *         required: true
- *         type: string
- *       - name: type
- *         description: User type
- *         in:  formData
- *         type: string
- *       - name: status
- *         description: User status
- *         in:  formData
- *         type: string
+ *     - name: token
+ *       description: User token
+ *       in:  header
+ *     - name: id
+ *       description: User id
+ *       in:  path
+ *     - in: body
+ *       name: user
+ *       schema:
+ *         $ref: '#/definitions/User'
  *     responses:
  *       200:
  *         description: OK
- *         schema:
- *           $ref: '#/definitions/User'
  *         examples: 
  *           application/json: 
  *             { 
@@ -289,24 +270,17 @@ module.exports.updateUserById = async (req, res, next) => {
 
 /**
  * @swagger
- *
- * /login:
- *   post:
+ * 
+ *  /login:
+ *    post:
  *     tags: [login]
- *     description: Login as a user ( Don't need to add base url )
- *     produces:
- *       - application/json
+ *     consumes:
+ *     - application/json
  *     parameters:
- *       - name: email
- *         description: User email
- *         in:  formData
- *         required: true
- *         type: string
- *       - name: password
- *         description: User password
- *         in:  formData
- *         required: true
- *         type: string
+ *     - in: body
+ *       name: user
+ *       schema:
+ *         $ref: '#/definitions/LoginUser'
  *     responses:
  *       200:
  *         description: OK

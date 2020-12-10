@@ -11,22 +11,28 @@ const { createResponse }    = require('../utils/responseGenerate');
  *     properties:
  *       name:
  *         type: string
+ *         example: The Knight One
  *       author:
  *         type: string
+ *         example: David
  *       genre:
  *         type: string
+ *         example: Fantasy
  *       image:
  *         type: string
+ *         example: image.jpg
  *       releaseDate:
  *         type: date
+ *         example: Wed Dec 09 2020 00:24:55 GMT+0600
  *       status:
  *         type: string
+ *         example: active
  */
 
 /**
  * @swagger
  *
- * /books:
+ * /api/books:
  *   post:
  *     tags: [books]
  *     description: Create a new book
@@ -96,11 +102,10 @@ module.exports.createBook = async (req, res,next) => {
 	return res.status(200).json(createResponse(book, 'book created successfully'));
 };
 
-
 /**
  * @swagger
  *
- * /books:
+ * /api/books:
  *   get:
  *     tags: [books]
  *     description: Get all books
@@ -160,7 +165,7 @@ module.exports.getBooks = async (req, res,next) => {
 /**
  * @swagger
  *
- * /books/:id:
+ * /api/books/{id}:
  *   get:
  *     tags: [books]
  *     description: Get book by id
@@ -172,7 +177,7 @@ module.exports.getBooks = async (req, res,next) => {
  *         in:  header
  *       - name: id
  *         description: Book id
- *         in:  formData
+ *         in:  path
  *         type: string
  *     responses:
  *       200:
@@ -216,7 +221,7 @@ module.exports.getBookById = async (req, res,next) => {
 /**
  * @swagger
  *
- * /books/:id:
+ * /api/books/{id}:
  *   put:
  *     tags: [books]
  *     description: Update book by id
@@ -226,6 +231,10 @@ module.exports.getBookById = async (req, res,next) => {
  *       - name: token
  *         description: User token
  *         in:  header
+ *       - name: id
+ *         description: Book id
+ *         in:  path
+ *         type: string
  *       - name: name
  *         description: Book name
  *         in:  formData
@@ -276,6 +285,7 @@ module.exports.getBookById = async (req, res,next) => {
  *         
  */
 module.exports.updateBookById = async (req, res,next) => {
+	req.body.image = req.file.filename;
 	let [error,book] = await _p(bookCrud.updateBookById(req.params.id, req.body));
 
 	if(error) {
@@ -291,7 +301,7 @@ module.exports.updateBookById = async (req, res,next) => {
 /**
  * @swagger
  *
- * /books/:id:
+ * /api/books/{id}:
  *   delete:
  *     tags: [books]
  *     description: Delete book by id
@@ -301,6 +311,10 @@ module.exports.updateBookById = async (req, res,next) => {
  *       - name: token
  *         description: User token
  *         in:  header
+ *       - name: id
+ *         description: Book id
+ *         in:  path
+ *         type: string
  *     responses:
  *       200:
  *         description: OK
